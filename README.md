@@ -22,3 +22,5 @@ The number of males and females per speed-dating session were generated accordin
 ### Assigning participant traits
 Each agent was assigned latent trait scores, a rating bias, and stated partner preferences. For the specified number of traits, latent trait scores were generated according to a normal distribution (M = 4.00, SD = 1.50) and stated partner preferences were generated for each trait according to the distribution of preferences from the speed-dating data and rounded to the nearest integer between 1 and 7. A rating bias was generated for each individual according to a normal distribution (M = 0.00, SD = 1.50). 
 
+## ABMsub.pbs
+Awoonga cluster pbs file
