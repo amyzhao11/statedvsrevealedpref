@@ -1,0 +1,9 @@
+#PBS -A UQ-SCI-SMP
+#PBS -l select=1:ncpus=1:mem=10GB
+#PBS -l walltime=199:00:00
+#PBS -N 2to9
+
+cd $PBS_O_WORKDIR
+
+module load R
+R CMD BATCH ABM2104_2to9.r
