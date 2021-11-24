@@ -1,7 +1,7 @@
 # stated vs revealed preferences
 stated vs revealed preferences and agent-based modelling
 
-## ABM2104.r
+## ABM2111.r
 Contains agent-based modelling r script. This simulation involves male and female agents (simulated participants) rating opposite-sex agents according to the constraints of the real-life speed-dating environment. ABM data has been generated in the same structure as the real-life speed-dating data so that MLM could be performed and direct comparisons can be made between the γ obtained from simulated and real-life speed-dating data.
 ### Variable definitions
 * Agent_i: Denotes the specific individual who gives the rating within the simulation, this is given by their ID number {1000, 1001, …}.
