@@ -24,7 +24,7 @@ for (iterate in 1:num){
   ndatesm<-round(rnorm(nsession,8.308,1))
   ndatesf<-round(rnorm(nsession,8.308,1))
   
-  #no more than 5 of each sex per session, no less than 2 of each sex per session
+  #no more than 10 of each sex per session, no less than 5 of each sex per session
   ndatesm[ndatesm <5] <- 5
   ndatesm[ndatesm >10] <- 10
   ndatesf[ndatesf <5] <- 5
@@ -35,11 +35,11 @@ for (iterate in 1:num){
   IDf=2000:(sum(ndatesf)+2000-1) #Female ID
   
   #initialise data frame, ID of participants for each session:
-  IDDatesm=data.frame(m1=rep(NA,nsession),m2=rep(NA,nsession),
-                      m3=rep(NA,nsession),m4=rep(NA,nsession),m5=rep(NA,nsession))
+  IDDatesm=matrix(nrow=nsession,ncol=max(ndatesm))
+  IDDatesm=as.data.frame(IDDatesm)
   
-  IDDatesf=data.frame(f1=rep(NA,nsession),f2=rep(NA,nsession),
-                      f3=rep(NA,nsession),f4=rep(NA,nsession),f5=rep(NA,nsession))
+  IDDatesf=matrix(nrow=nsession,ncol=max(ndatesf))
+  IDDatesf=as.data.frame(IDDatesf)
   
   #initialise data frame, possible partner options for each participant
   optionsm=data.frame(participantf=numeric(), partner_m=numeric()); #female participant, m partner options
@@ -311,6 +311,6 @@ for (iterate in 1:num){
 }
 
 #capture.output(saved, file = paste("session",deparse(nsession),"traits",deparse(ntraits),"noise",deparse(noise),".txt"))
-write.csv(saved,paste("session",deparse(nsession),"traits",deparse(ntraits),"noise",deparse(noise),".csv"), row.names = FALSE)
+write.csv(saved,paste("Valentine session",deparse(nsession),"traits",deparse(ntraits),"noise",deparse(noise),".csv"), row.names = FALSE)
   }
 }
