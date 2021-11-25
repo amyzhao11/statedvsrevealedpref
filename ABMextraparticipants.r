@@ -6,7 +6,7 @@ library(lmerTest)
 
 rm(list=ls(all=TRUE)) #remove all saved variables in workspace
 
-sessionstested=c(50,100,150,171)
+sessionstested=c(25,50,100,150,171)
 nsexgroup=1244/(sessionstested*2) #number of males/females in each group
 
 noisetested=c(0,10)
@@ -304,8 +304,7 @@ for (iterate in 1:num){
               +(1|SessionID)
               +(1|ParticipantID)
               +(1|PartnerID)
-              +(Trait1|impTrait1)
-              +(Trait1:impTrait1|ParticipantID)
+              +(Trait1|ParticipantID)
               ,data=relevant)
   saved$estimate[iterate]=summary(model)$coefficients[4,1]
   saved$p[iterate]=summary(model)$coefficients[4,5]
