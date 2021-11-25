@@ -302,8 +302,7 @@ for (iterate in 1:num){
               +(1|SessionID)
               +(1|ParticipantID)
               +(1|PartnerID)
-              +(Trait1|impTrait1)
-              +(Trait1:impTrait1|ParticipantID)
+              +(Trait1|ParticipantID)
               ,data=relevant)
   saved$estimate[iterate]=summary(model)$coefficients[4,1]
   saved$p[iterate]=summary(model)$coefficients[4,5]
