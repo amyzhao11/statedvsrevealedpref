@@ -6,7 +6,7 @@ library(lmerTest)
 
 rm(list=ls(all=TRUE)) #remove all saved variables in workspace
 
-traitstested=c(2,3, 5, 10)#, 15)#, 20, 25)
+traitstested=c(2,3,5,9,10,15,20,25)#, 15)#, 20, 25)
 noisetested=c(0,10,20,30,40,50)
 num=1000 #number of simulations
 
@@ -153,6 +153,11 @@ for (iterate in 1:num){
   latentm[latentm<1]<-1
   latentm[latentm>7]<-7
   
+  #importance cannot be less than 1 or more than 7
+  importancem[importancem<1]<-1
+  importancem[importancem>7]<-7
+  importancem<-round(importancem)
+  
   ###########female#############
   for (i in 1:sum(ndatesf)){
     for (j in 1:ntraits){
@@ -166,6 +171,10 @@ for (iterate in 1:num){
   latentf[latentf<1]<-1
   latentf[latentf>7]<-7
   
+  #importance cannot be less than 1 or more than 7
+  importancef[importancef<1]<-1
+  importancef[importancef>7]<-7
+  importancef<-round(importancef)
   
   #traits of male participants (ID, latent traits, rating bias, importance of trait)
   traitsm=data.frame(IDm,latentm, biasm, importancem)
@@ -216,7 +225,7 @@ for (iterate in 1:num){
     }
   }
   
-  traitappealf[traitappealf<0]<-0
+  
   #%females rate males
   for (i in 1:length(m$participantm)){
     for (j in 1:ntraits){
@@ -248,7 +257,7 @@ for (iterate in 1:num){
     }
   }
   
-  traitappealm[traitappealm<0]<-0
+  
   ###########attraction scores#########
   
   ###attraction scores of males rated by females
@@ -295,6 +304,7 @@ for (iterate in 1:num){
   colnames(traitsf)[colnames(traitsf)=="IDf"] <- "participantID"
   person<-rbind(traitsm,traitsf) #combine male and female data
   total<-merge(person,rate,by="participantID") #combine level 1 and level 2 data
+
   
   relevant<-data.frame("ParticipantID"=total$participantID,
                        "SessionID"=total$sessionID,
@@ -309,13 +319,16 @@ for (iterate in 1:num){
               +(1|ParticipantID)
               +(1|PartnerID)
               +(Trait1|ParticipantID)
+              #+(Trait1:impTrait1|ParticipantID)
               ,data=relevant)
   saved$estimate[iterate]=summary(model)$coefficients[4,1]
   saved$p[iterate]=summary(model)$coefficients[4,5]
   #save MLM output
+
 }
 
 #capture.output(saved, file = paste("session",deparse(nsession),"traits",deparse(ntraits),"noise",deparse(noise),".txt"))
-write.csv(saved,paste("2211 session",deparse(nsession),"traits",deparse(ntraits),"noise",deparse(noise),".csv"), row.names = FALSE)
+write.csv(saved,paste("2511 session",deparse(nsession),"traits",deparse(ntraits),"noise",deparse(noise),".csv"), row.names = FALSE)
   }
 }
+
