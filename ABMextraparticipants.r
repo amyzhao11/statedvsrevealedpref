@@ -9,6 +9,8 @@ rm(list=ls(all=TRUE)) #remove all saved variables in workspace
 sessionstested=c(25,50,100,150,171)
 nsexgroup=1244/(sessionstested*2) #number of males/females in each group
 
+
+
 noisetested=c(0,10)
 num=1000 #number of simulations
 sessioncount=1
@@ -17,20 +19,24 @@ for (s in sessionstested){
 saved <- data.frame(estimate=rep(NA,num),p=rep(NA,num),ntotal=rep(NA,num)) #save MLM output
 
 for (iterate in 1:num){
-  print("check1")
+  
   nsession=s #number of speed dating sessions
   ntraits=9 #number of traits
   noise=noisy #scaling of noise, if 0, stated preference fully informs revealed preferences
   
-  ndatesm<-round(rnorm(nsession,nsexgroup[sessioncount],1))
-  ndatesf<-round(rnorm(nsession,nsexgroup[sessioncount],1))
+
+    ndatesm<-round(rnorm(nsession,nsexgroup[sessioncount],1))
+    ndatesf<-round(rnorm(nsession,nsexgroup[sessioncount],1))
   
   # #no more than 5 of each sex per session, no less than 2 of each sex per session
    ndatesm[ndatesm <2] <- 2
   # ndatesm[ndatesm >5] <- 5
    ndatesf[ndatesf <2] <- 2
   # ndatesf[ndatesf >5] <- 5
-   print("check2")
+   if (sessionstested ==171){
+     ndatesm[ndatesm >5] <- 5
+     ndatesf[ndatesf >5] <- 5
+   }
   #generate all ID numbers
   IDm=1000:(sum(ndatesm)+1000-1) #Male ID
   IDf=2000:(sum(ndatesf)+2000-1) #Female ID
@@ -51,13 +57,13 @@ for (iterate in 1:num){
   count1=0
   iter=1
   iter1=1
-  print("check3")
+  
   for (i in 1:nsession){
     k=ndatesm[i] #number of male participants per session
     g=ndatesf[i] #number of female participants per session
     IDDatesm[i,1:k]=IDm[(count+1):(count+k)] #%male IDs per session
     IDDatesf[i,1:g]=IDf[(count1+1):(count1+g)] #%female IDs per session
-    print("check4")
+    
     for (j in 1:g){
       for (m in 1:k){
         #%female participant ID and male partner ID
@@ -65,7 +71,7 @@ for (iterate in 1:num){
         iter=iter+1 #%new row in dataframe
       }
     }
-    print("check5")
+    
     for (j in 1:k)
       for (m in 1:g){
         #%male participant ID and female partner ID
@@ -79,7 +85,7 @@ for (iterate in 1:num){
   # show(ndatesm)
   # show(optionsm)
   # show(optionsf)
-  print("check6")
+  
   #########################################################################
   #datem: keeps track of current session (male participants)
   datem=data.frame(sessionID=numeric(length(optionsf$participantm)));
@@ -88,7 +94,7 @@ for (iterate in 1:num){
   
   datef=data.frame(sessionID=numeric(length(optionsm$participantf)));
   interactionf=data.frame(interact=numeric(length(optionsm$participantf)));
-  print("check7")
+  
   n=1 
   n1=1
   jcount=1 
@@ -112,7 +118,7 @@ for (iterate in 1:num){
       jcount1=jcount1+1
     }
   }
-  print("check8")
+  
   #store pairings, session number, interaction number in data frame
   m=data.frame(optionsf,datem,interactionm)
   f=data.frame(optionsm,datef,interactionf)
@@ -149,6 +155,11 @@ for (iterate in 1:num){
   latentm[latentm<1]<-1
   latentm[latentm>7]<-7
   
+  #importance cannot be less than 1 or more than 7
+  importancem[importancem<1]<-1
+  importancem[importancem>7]<-7
+  importancem<-round(importancem)
+  
   ###########female#############
   for (i in 1:sum(ndatesf)){
     for (j in 1:ntraits){
@@ -162,6 +173,10 @@ for (iterate in 1:num){
   latentf[latentf<1]<-1
   latentf[latentf>7]<-7
   
+  #importance cannot be less than 1 or more than 7
+  importancef[importancef<1]<-1
+  importancef[importancef>7]<-7
+  importancef<-round(importancef)
   
   #traits of male participants (ID, latent traits, rating bias, importance of trait)
   traitsm=data.frame(IDm,latentm, biasm, importancem)
@@ -212,7 +227,7 @@ for (iterate in 1:num){
     }
   }
   
-  traitappealf[traitappealf<0]<-0
+  
   #%females rate males
   for (i in 1:length(m$participantm)){
     for (j in 1:ntraits){
@@ -244,7 +259,7 @@ for (iterate in 1:num){
     }
   }
   
-  traitappealm[traitappealm<0]<-0
+  
   ###########attraction scores#########
   
   ###attraction scores of males rated by females
@@ -305,6 +320,7 @@ for (iterate in 1:num){
               +(1|ParticipantID)
               +(1|PartnerID)
               +(Trait1|ParticipantID)
+
               ,data=relevant)
   saved$estimate[iterate]=summary(model)$coefficients[4,1]
   saved$p[iterate]=summary(model)$coefficients[4,5]
@@ -313,7 +329,7 @@ for (iterate in 1:num){
 }
 
 #capture.output(saved, file = paste("session",deparse(nsession),"traits",deparse(ntraits),"noise",deparse(noise),".txt"))
-write.csv(saved,paste("varparticipants session",deparse(nsession),"traits",deparse(ntraits),"noise",deparse(noise),".csv"), row.names = FALSE)
+write.csv(saved,paste("2511 varparticipants session",deparse(nsession),"traits",deparse(ntraits),"noise",deparse(noise),".csv"), row.names = FALSE)
   }
   sessioncount=sessioncount+1
 }
