@@ -147,6 +147,10 @@ for (iterate in 1:num){
   latentm[latentm<1]<-1
   latentm[latentm>7]<-7
   
+  #importance cannot be less than 1 or more than 7
+  importancem[importancem<1]<-1
+  importancem[importancem>7]<-7
+  importancem<-round(importancem)
   ###########female#############
   for (i in 1:sum(ndatesf)){
     for (j in 1:ntraits){
@@ -160,6 +164,10 @@ for (iterate in 1:num){
   latentf[latentf<1]<-1
   latentf[latentf>7]<-7
   
+  #importance cannot be less than 1 or more than 7
+  importancef[importancef<1]<-1
+  importancef[importancef>7]<-7
+  importancef<-round(importancef)
   
   #traits of male participants (ID, latent traits, rating bias, importance of trait)
   traitsm=data.frame(IDm,latentm, biasm, importancem)
@@ -210,7 +218,7 @@ for (iterate in 1:num){
     }
   }
   
-  traitappealf[traitappealf<0]<-0
+  
   #%females rate males
   for (i in 1:length(m$participantm)){
     for (j in 1:ntraits){
@@ -242,7 +250,7 @@ for (iterate in 1:num){
     }
   }
   
-  traitappealm[traitappealm<0]<-0
+  
   ###########attraction scores#########
   
   ###attraction scores of males rated by females
@@ -310,6 +318,6 @@ for (iterate in 1:num){
 }
 
 #capture.output(saved, file = paste("session",deparse(nsession),"traits",deparse(ntraits),"noise",deparse(noise),".txt"))
-write.csv(saved,paste("Valentine session",deparse(nsession),"traits",deparse(ntraits),"noise",deparse(noise),".csv"), row.names = FALSE)
+write.csv(saved,paste("0212 Valentine session",deparse(nsession),"traits",deparse(ntraits),"noise",deparse(noise),".csv"), row.names = FALSE)
   }
 }
