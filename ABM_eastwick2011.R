@@ -2,13 +2,13 @@ library(lme4)
 library(lmerTest)
 
 #length(unique(yeah$sessionid[yeah$sessionid>=1400]))
-#13 speed-dating sessions from real data
+#8 speed-dating sessions from real data
 #calculate number of males/females using final sample size (216/(13*2))
 
 rm(list=ls(all=TRUE)) #remove all saved variables in workspace
 
 traitstested=c(5,9,10)
-noisetested=c(0)#,10,20,30,40,50) 
+noisetested=c(0,10)#,10,20,30,40,50) 
 num=1000 #number of simulations
 
 for (t in traitstested){
@@ -136,7 +136,7 @@ for (iterate in 1:num){
   ######males########
   for (i in 1:sum(ndatesm)){
     for (j in 1:ntraits){
-      importancem[i,j]=rnorm(1,5.314,1.195) #range from 1 to 7
+      importancem[i,j]=rnorm(1,4,1.5) #range from 1 to 7
       latentm[i,j]=rnorm(1,4,1.5) #%std dev=1.7, mean=4
       biasm[i,1]= rnorm(1,0,1.5) #mean=0, std=1.5
       
@@ -154,7 +154,7 @@ for (iterate in 1:num){
   ###########female#############
   for (i in 1:sum(ndatesf)){
     for (j in 1:ntraits){
-      importancef[i,j]=rnorm(1,5.346,1.215)
+      importancef[i,j]=rnorm(1,4,1.5)
       latentf[i,j]=rnorm(1,4,1.5) #%std dev=2, mean=4
       biasf[i,1]= rnorm(1,0,1.5) #mean=0, std=1.5
       
