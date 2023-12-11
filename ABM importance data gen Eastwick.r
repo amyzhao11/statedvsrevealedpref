@@ -5,15 +5,13 @@ library(foreach)
 library(doParallel)
 #length(unique(yeah$sessionid[yeah$sessionid>=1400]))
 #171 speed-dating sessions from real data
-setwd("C:/Users/s4357180/OneDrive - The University of Queensland/Writing/Pattern metric/Submission 2/Code")
-rm(list=ls(all=TRUE)) #remove all saved variables in workspace
+setwd("###")
+rm(list=ls(all=TRUE)) 
 
 packages <- c("parallel", "foreach", "doParallel")
-num_sims <- 1000 #This is the number of simulations I want, I’m going to ask foreach to run through 1:num_sims in parallel
+num_sims <- 1000 
 
-registerDoParallel(min(detectCores()-1,num_sims)) #This establishes how many cores to use (it will use the minimum of either the total number of cores for this computer – 1, or the total number of sims)
-
-
+registerDoParallel(min(detectCores()-1,num_sims)) 
 
 euclidean <- function(a, b) sqrt(sum((a - b)^2))
 traitstested=10#c(2,3,5,9,10,15,20,25)#c(2,3,5,9,10,15,20,25)#, 15)#, 20, 25)
